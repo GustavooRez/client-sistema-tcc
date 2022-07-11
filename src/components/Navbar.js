@@ -118,7 +118,7 @@ export default function Navbar() {
                 <NavDropdown.Item href="/criar-cronograma">
                   Criar cronograma
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/cronograma">
+                <NavDropdown.Item href="/cronogramas">
                   Visualizar cronograma
                 </NavDropdown.Item>
               </NavDropdown>
@@ -164,10 +164,10 @@ export default function Navbar() {
                   <NavDropdown.Item href="/institutos">
                     Visualizar institutos
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="/criar-usuarios">
+                  <NavDropdown.Item href="/criar-curso">
                     Criar curso
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="/criar-usuarios">
+                  <NavDropdown.Item href="/cursos">
                     Visualizar cursos
                   </NavDropdown.Item>
                 </NavDropdown>

@@ -56,3 +56,8 @@ body {
 .outro_div {
   padding-top: 1em;
 }
+
+.accordion-div {
+  display: flex;
+  justify-content: space-between;
+}

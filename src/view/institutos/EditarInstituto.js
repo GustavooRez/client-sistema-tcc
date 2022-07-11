@@ -1,46 +1,40 @@
 import React, { useState, useCallback } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Select from "react-select";
 import Typography from "@material-ui/core/Typography";
 import Alert from "@mui/material/Alert";
-import { useNavigate } from "react-router-dom";
 import InputLabel from "@material-ui/core/InputLabel";
-import axios from "axios";
+const axios = require("axios").default;
 
-export default function CriarInstituto() {
-  const [universidades, setUniversidades] = useState([]);
-  const [requisicao, setRequisicao] = useState(false);
+export default function EditarInstituto() {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const [instituto, setInstituto] = useState(false);
   const userId = localStorage.getItem("userId");
-  const [universidadeSelected, setUniversidadeSelected] = useState(null);
   var [status, setStatus] = useState(true);
   const [inputValues, setInputValues] = useState({
-    nome: ""
+    nome: "",
+    id_universidade: ""
   });
 
   React.useEffect(() => {
-    axios.
-      get(`${process.env.REACT_APP_API_URL}/universities`,
-      {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/institute/${id}`, {
         headers: {
           Authorization: localStorage.getItem("accesstoken"),
         },
-      }
-    )
-    .then((unis) => {
-        let arrayUniversidades = [];
-        unis.data.universidades.forEach((uni) => {
-          arrayUniversidades.push({
-            value: uni.id,
-            label: uni.nome,
-          });
-        });
-        setUniversidades(arrayUniversidades);
-        setRequisicao(true);
-        console.log(arrayUniversidades);
-    })
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          setInputValues({
+            nome: res.data.instituto.nome,
+            id_universidade: res.data.instituto.id_universidade
+          })
+        }
+        setInstituto(true)
+      });
   }, []);
 
   const handleOnChange = useCallback((event) => {
@@ -48,17 +42,13 @@ export default function CriarInstituto() {
     setInputValues({ ...inputValues, [name]: value });
   });
 
-  const handleChangeUniversidades = (event) => {
-    setUniversidadeSelected(event.value);
-  };
-
   function onSubmit() {
     axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/institute`,
+      .put(
+        `${process.env.REACT_APP_API_URL}/institutes/${id}`,
         {
           nome: inputValues.nome,
-          id_universidade: universidadeSelected
+          id_universidade: inputValues.id_universidade
         },
         {
           headers: {
@@ -67,7 +57,7 @@ export default function CriarInstituto() {
         }
       )
       .then((res) => {
-        if (res.status === 200) {
+        if (res.data.status === 200) {
           return navigate("/institutos");
         } else {
           setStatus(res.data.error);
@@ -82,7 +72,7 @@ export default function CriarInstituto() {
         <div className="mt-3 mt-md-5">
           <div className="text-center">
             <Typography className="pb-5 pt-2" component="h1" variant="h4">
-              Criar Instituo
+              Editar Instituto
             </Typography>
             {status !== true ? (
               <Alert className="my-2" variant="filled" severity="error">
@@ -100,6 +90,18 @@ export default function CriarInstituto() {
               label="Nome"
               name="nome"
               onChange={handleOnChange}
+              value={instituto !== false ? inputValues.nome : ""}
+            ></TextField>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="id_universidade"
+              label="Id da universidade"
+              name="id_universidade"
+              onChange={handleOnChange}
+              value={instituto !== false ? inputValues.id_universidade : ""}
             ></TextField>
             <div
               className={"mt-3"}
@@ -109,25 +111,7 @@ export default function CriarInstituto() {
                 alignItems: "center",
               }}
             >
-                
             </div>
-            <InputLabel
-              style={{ textAlign: "center" }}
-              className={"mt-2"}
-              id="label-universidade"
-            >
-              Selecione a universidade
-            </InputLabel>   
-            <Select
-              className={"mt-3"}
-              labelId="label-universidade"
-              variant="outlined"
-              defaultValue=""
-              options={universidades}
-              fullWidth
-              placeholder="Universidade"
-              onChange={handleChangeUniversidades}
-            />
             <Button
               type="button"
               variant="contained"
@@ -137,7 +121,7 @@ export default function CriarInstituto() {
               className="mb-3 mb-md-4 mt-4 backgroundcolor2"
               onClick={() => onSubmit()}
             >
-              Cadastrar
+              Atualizar
             </Button>
           </div>
         </div>

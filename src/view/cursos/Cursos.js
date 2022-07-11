@@ -11,10 +11,12 @@ import Accordion from "react-bootstrap/Accordion";
 const axios = require("axios").default;
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function Institutos() {
+export default function Cursos() {
   const [institutos, setInstitutos] = useState([]);
   const [universidades, setUniversidades] = useState([]);
-  let [requisition, setRequisition] = React.useState();
+  const [cursos, setCursos] = useState([]);
+  const [requisitionInstituto, setRequisitionInstituto] = useState(null);
+  const [requisitionCurso, setRequisitionCurso] = useState(null);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -42,8 +44,12 @@ export default function Institutos() {
     searchInstitutes(event.value);
   };
 
+  const handleChangeInstituto = (event) => {
+    searchCourses(event.value);
+  }
+
   function searchInstitutes(valueUniversidade) {
-    setRequisition(false);
+    setRequisitionInstituto(false);
     const arrayInstitutos = [];
     setInstitutos(arrayInstitutos);
     axios
@@ -55,18 +61,41 @@ export default function Institutos() {
       .then((res) => {
         res.data.institutos.forEach((data) => {
           arrayInstitutos.push({
-            id: data.id,
-            nome: data.nome,
+            value: data.id,
+            label: data.nome,
           });
         });
         setInstitutos(arrayInstitutos);
-        setRequisition(true);
+        setRequisitionInstituto(true);
+      });
+  }
+
+  function searchCourses(valueInstituto) {
+    setRequisitionCurso(false);
+    const arrayCursos = [];
+    setCursos(arrayCursos);
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/institute/${valueInstituto}/courses`, {
+        headers: {
+          Authorization: localStorage.getItem("accesstoken"),
+        },
+      })
+      .then((res) => {
+        res.data.cursos.forEach((data) => {
+          arrayCursos.push({
+            id: data.id,
+            nome: data.nome,
+            codigo: data.codigo
+          });
+        });
+        setCursos(arrayCursos);
+        setRequisitionCurso(true);
       });
   }
 
   function handleDelete(id) {
     axios
-      .delete(`${process.env.REACT_APP_API_URL}/institutes/${id}`, {
+      .delete(`${process.env.REACT_APP_API_URL}/courses/${id}`, {
         headers: {
           Authorization: localStorage.getItem("accesstoken"),
         },
@@ -78,11 +107,13 @@ export default function Institutos() {
         }
       })
   }
-
   return (
     <div>
       <Container component="main">
-        <div className="mt-3 mt-md-5">
+      <div className="mt-3 mt-md-5">
+            <Typography className="pb-5 pt-2 text-center" component="h1" variant="h4">
+              Cursos
+            </Typography>
             <InputLabel
               style={{ textAlign: "center" }}
               className={"mt-2"}
@@ -100,32 +131,61 @@ export default function Institutos() {
               placeholder="Universidade"
               onChange={handleChangeUniversidade}
             />
-          {institutos.length !== 0 ? (
+          {requisitionInstituto ? (
+            <>
             <div>
-              <Typography className="pb-5 pt-2 mt-5" component="h1" variant="h4">
-                Institutos
+              <InputLabel
+              style={{ textAlign: "center" }}
+              className={"mt-4"}
+              id="label-instituto"
+            >
+              Selecione o instituto
+            </InputLabel>   
+            <Select
+              className={"mt-3"}
+              labelId="label-instituto"
+              variant="outlined"
+              defaultValue=""
+              options={institutos}
+              fullWidth
+              placeholder="Instituto"
+              onChange={handleChangeInstituto}
+            />
+            </div>
+            {cursos.length !== 0 ? (
+            <div>
+              <Typography className="pb-5 pt-2 mt-3" component="h1" variant="h4">
+                Cursos
               </Typography>
               <Accordion defaultActiveKey="">
-                {institutos.map((instituto) => (
-                  <Accordion.Item eventKey={instituto.id}>
-                    <Accordion.Header>{instituto.nome}</Accordion.Header>
+                {cursos.map((curso) => (
+                  <Accordion.Item eventKey={curso.id}>
+                    <Accordion.Header>{curso.nome}</Accordion.Header>
                     <Accordion.Body>
-                        <div className="accordion-div">
-                        <p><strong>Nome:</strong> {instituto.nome} <br/></p>
-                        <div>
-                          <button onClick={() => navigate(`/editar-instituto/${instituto.id}`)}>
-                            <UpdateIcon />
-                          </button>
-                          <button onClick={() => handleDelete(instituto.id)}>
-                            <DeleteOutlineIcon />
-                          </button>
+                      <div className="accordion-div">
+                          <div>
+                            <p><strong>Nome:</strong> {curso.nome} <br/></p>
+                            <p><strong>Codigo:</strong> {curso.codigo} <br/></p>
+                          </div>
+                          <div>
+                            <button onClick={() => navigate(`/editar-curso/${curso.id}`)}>
+                              <UpdateIcon />
+                            </button>
+                            <button onClick={() => handleDelete(curso.id)}>
+                              <DeleteOutlineIcon />
+                            </button>
+                          </div>
                         </div>
-                      </div>
                     </Accordion.Body>
                   </Accordion.Item>
                 ))}
               </Accordion>
             </div>
+          ) : (
+            ""
+          )}
+            </>
+                     
           ) : (
             ""
           )}
