@@ -34,7 +34,7 @@ export default function CriarUsuario() {
 
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/universitys`, {
+      .get(`${process.env.REACT_APP_API_URL}/universities`, {
         headers: {
           Authorization: localStorage.getItem("accesstoken"),
         },
@@ -84,7 +84,7 @@ export default function CriarUsuario() {
     setCursoSelected(undefined);
     axios
       .get(
-        `${process.env.REACT_APP_API_URL}/universitys/${event.value}/institutes`,
+        `${process.env.REACT_APP_API_URL}/universities/${event.value}/institutes`,
         {
           headers: {
             Authorization: localStorage.getItem("accesstoken"),
