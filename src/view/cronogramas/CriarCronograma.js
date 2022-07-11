@@ -9,12 +9,13 @@ import { useNavigate } from "react-router-dom";
 const axios = require("axios").default;
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function Cursos() {
+export default function CriarCronograma() {
   const [institutos, setInstitutos] = useState([]);
   const [universidades, setUniversidades] = useState([]);
   const [cursos, setCursos] = useState([]);
   const [cursoSelected, setCursoSelected] = useState(null);
-  const [requisition, setRequisition] = useState(null);
+  const [requisitionInstituto, setRequisitionInstituto] = useState(null);
+  const [requisitionCurso, setRequisitionCurso] = useState(null);
   const navigate = useNavigate();
   const [inputValues, setInputValues] = useState({
     ano: "",
@@ -61,7 +62,7 @@ export default function Cursos() {
   }
 
   function searchInstitutes(valueUniversidade) {
-    setRequisition(false);
+    setRequisitionInstituto(false);
     const arrayInstitutos = [];
     setInstitutos(arrayInstitutos);
     axios
@@ -78,12 +79,12 @@ export default function Cursos() {
           });
         });
         setInstitutos(arrayInstitutos);
-        setRequisition(true);
+        setRequisitionInstituto(true);
       });
   }
 
   function searchCourses(valueInstituto) {
-    setRequisition(false);
+    setRequisitionCurso(false);
     const arrayCursos = [];
     setCursos(arrayCursos);
     axios
@@ -100,7 +101,7 @@ export default function Cursos() {
           });
         });
         setCursos(arrayCursos);
-        setRequisition(true);
+        setRequisitionCurso(true);
       });
   }
 
@@ -121,7 +122,7 @@ export default function Cursos() {
       )
       .then((res) => {
         if (res.status === 200) {
-          return navigate("/timelines");
+          return navigate("/cronogramas");
         } else {
           setStatus(res.data.error);
         }
@@ -152,7 +153,7 @@ export default function Cursos() {
               placeholder="Universidade"
               onChange={handleChangeUniversidade}
             />
-          {requisition ? (
+          {requisitionInstituto ? (
             <>
             <div>
               <InputLabel

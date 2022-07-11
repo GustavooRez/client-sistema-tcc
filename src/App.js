@@ -35,6 +35,10 @@ import CriarCronograma from "./view/cronogramas/CriarCronograma";
 import EditarUniversidade from "./view/universidades/EditarUniversidade";
 import EditarInstituto from './view/institutos/EditarInstituto';
 import EditarCurso from './view/cursos/EditarCurso';
+import Cronogramas from "./view/cronogramas/Cronogramas";
+import CriarAtividade from "./view/atividades/CriarAtividade";
+import Atividades from "./view/atividades/Atividades";
+import EditarAtividade from "./view/atividades/EditarAtividade";
 function App() {
   return (
       
@@ -58,9 +62,14 @@ function App() {
           <Route path="/editar-universidade/:id" element={ <RequireAdminAccess> <Navbar /> <EditarUniversidade /> </RequireAdminAccess> } />
           <Route path="/editar-instituto/:id" element={ <RequireAdminAccess> <Navbar /> <EditarInstituto /> </RequireAdminAccess> } />
           <Route path="/editar-curso/:id" element={ <RequireAdminAccess> <Navbar /> <EditarCurso /> </RequireAdminAccess> } />
+          <Route path="/criar-atividade/:id" element={ <RequireAdminAccess> <Navbar /> <CriarAtividade /> </RequireAdminAccess> } />
           <Route path="/criar-instituto" element={ <RequireAdminAccess> <Navbar /> <CriarInstituto /> </RequireAdminAccess> } />
           <Route path="/criar-curso" element={ <RequireAdminAccess> <Navbar /> <CriarCurso /> </RequireAdminAccess> } />
           <Route path="/criar-cronograma" element={ <RequireAdminAccess> <Navbar /> <CriarCronograma /> </RequireAdminAccess> } />
+          <Route path="/criar-atividade" element={ <RequireAdminAccess> <Navbar /> <CriarAtividade /> </RequireAdminAccess> } />
+          <Route path="/cronogramas" element={ <RequireAdminAccess> <Navbar /> <Cronogramas /> </RequireAdminAccess> } />
+          <Route path="/atividades/:id" element={ <RequireAdminAccess> <Navbar /> <Atividades /> </RequireAdminAccess> } />
+          <Route path="/editar-atividade/:id/:id_cronograma" element={ <RequireAdminAccess> <Navbar /> <EditarAtividade /> </RequireAdminAccess> } />
           <Route path="/cursos" element={ <RequireAdminAccess> <Navbar /> <Cursos /> </RequireAdminAccess> } />
           <Route path="/universidades" element={ <RequireAdminAccess> <Navbar /> <Universidades /> </RequireAdminAccess> } />
           <Route path="/institutos" element={ <RequireAdminAccess> <Navbar /> <Institutos /> </RequireAdminAccess> } />
