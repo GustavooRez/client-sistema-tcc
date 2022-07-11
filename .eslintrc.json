@@ -1,0 +1,20 @@
+{
+	"root": true,
+	"extends": [
+		"eslint:recommended"
+	],
+	"rules": {
+		"no-useless-escape": "off",
+		"eqeqeq": "error",
+		"no-unused-vars": "off",
+		"semi": "off",
+        "no-undef": "off"
+	},
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	}
+}

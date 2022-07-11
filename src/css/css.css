@@ -1,0 +1,58 @@
+/* Neste arquivo é definido o css utilizado globalmente no sistema */
+.color1{
+    color: #1d6c81 !important;
+}
+.color2{
+    color:#0094A0 !important;
+}
+.color3{
+    color:#00C5CC !important;
+}
+.color4{
+    color:#FF4A3C !important;
+}
+.backgroundcolor1{
+    background-color:#1D6C81 !important;
+}
+.backgroundcolor2{
+    background-color:#0094A0 !important;
+}
+.backgroundcolor3{
+    background-color:#00C5CC !important;
+}
+.backgroundcolor4{
+    background-color:#FF4A3C !important;
+}
+.nav-link {
+  color: #344767 !important;
+}
+.data-rr-ui-dropdown-item {
+  color: black;
+}
+body {
+  background-color: #f0f2f5;
+}
+.telaConteudoTrilha h5 {
+  padding: 1% 0;
+}
+.duascolunas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.fundo-login {
+  align-items: center;
+  justify-content: center;
+}
+
+.container-login {
+  height: 100vh;
+}
+
+.content-login {
+  text-align: center;
+}
+
+.outro_div {
+  padding-top: 1em;
+}
