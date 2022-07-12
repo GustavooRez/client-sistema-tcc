@@ -1,13 +1,13 @@
 /* eslint-disable no-const-assign */
 import React, { useState, useCallback } from "react";
 import Container from "@material-ui/core/Container";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import AddIcon from '@mui/icons-material/Add';
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import AddIcon from "@mui/icons-material/Add";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "react-select";
 import Typography from "@material-ui/core/Typography";
 import Accordion from "react-bootstrap/Accordion";
-import ArticleIcon from '@mui/icons-material/Article';
+import ArticleIcon from "@mui/icons-material/Article";
 import { useNavigate } from "react-router-dom";
 const axios = require("axios").default;
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -20,18 +20,17 @@ export default function Cronogramas() {
   const [requisitionInstituto, setRequisitionInstituto] = useState(null);
   const [requisitionCurso, setRequisitionCurso] = useState(null);
   const [requisitionCronograma, setRequisitionCronograma] = useState(null);
+  var userType = localStorage.getItem("usertype");
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    axios.
-      get(`${process.env.REACT_APP_API_URL}/universities`,
-      {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/universities`, {
         headers: {
           Authorization: localStorage.getItem("accesstoken"),
         },
-      }
-    )
-    .then((unis) => {
+      })
+      .then((unis) => {
         let arrayUniversidades = [];
         unis.data.universidades.forEach((uni) => {
           arrayUniversidades.push({
@@ -40,7 +39,7 @@ export default function Cronogramas() {
           });
         });
         setUniversidades(arrayUniversidades);
-    })
+      });
   }, []);
 
   const handleChangeUniversidade = (event) => {
@@ -49,22 +48,28 @@ export default function Cronogramas() {
 
   const handleChangeInstituto = (event) => {
     searchCourses(event.value);
-  }
+  };
 
   const handleChangeCurso = (event) => {
     searchCronogramas(event.value);
-  }
+  };
 
   function searchInstitutes(valueUniversidade) {
     setRequisitionInstituto(false);
+    setRequisitionCurso(false);
     const arrayInstitutos = [];
     setInstitutos(arrayInstitutos);
+    const arrayCursos = [];
+    setCursos(arrayCursos);
     axios
-      .get(`${process.env.REACT_APP_API_URL}/universities/${valueUniversidade}/institutes`, {
-        headers: {
-          Authorization: localStorage.getItem("accesstoken"),
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API_URL}/universities/${valueUniversidade}/institutes`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("accesstoken"),
+          },
+        }
+      )
       .then((res) => {
         res.data.institutos.forEach((data) => {
           arrayInstitutos.push({
@@ -82,11 +87,14 @@ export default function Cronogramas() {
     const arrayCursos = [];
     setCursos(arrayCursos);
     axios
-      .get(`${process.env.REACT_APP_API_URL}/institute/${valueInstituto}/courses`, {
-        headers: {
-          Authorization: localStorage.getItem("accesstoken"),
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API_URL}/institute/${valueInstituto}/courses`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("accesstoken"),
+          },
+        }
+      )
       .then((res) => {
         res.data.cursos.forEach((data) => {
           arrayCursos.push({
@@ -128,126 +136,154 @@ export default function Cronogramas() {
         headers: {
           Authorization: localStorage.getItem("accesstoken"),
         },
-      }).then((res) => {
+      })
+      .then((res) => {
         if (res.data.status === 200) {
           return navigate(0);
         } else {
           alert(res.data.error);
         }
-      })
+      });
   }
-
-
 
   return (
     <div>
       <Container component="main">
-      <div className="mt-3 mt-md-5">
-            <Typography className="pb-5 pt-2 text-center" component="h1" variant="h4">
-              Cronogramas
-            </Typography>
-            <InputLabel
-              style={{ textAlign: "center" }}
-              className={"mt-2"}
-              id="label-universidade"
-            >
-              Selecione a universidade
-            </InputLabel>   
-            <Select
-              className={"mt-3"}
-              labelId="label-universidade"
-              variant="outlined"
-              defaultValue=""
-              options={universidades}
-              fullWidth
-              placeholder="Universidade"
-              onChange={handleChangeUniversidade}
-            />
-          {requisitionInstituto ? (
-            <>
-            <div>
+        <div className="mt-3 mt-md-5">
+          <Typography
+            className="pb-5 pt-2 text-center"
+            component="h1"
+            variant="h4"
+          >
+            Cronogramas
+          </Typography>
+          <div className="d-flex">
+            <div className="col-4">
               <InputLabel
-              style={{ textAlign: "center" }}
-              className={"mt-4"}
-              id="label-instituto"
-            >
-              Selecione o instituto
-            </InputLabel>   
-            <Select
-              className={"mt-3"}
-              labelId="label-instituto"
-              variant="outlined"
-              defaultValue=""
-              options={institutos}
-              fullWidth
-              placeholder="Instituto"
-              onChange={handleChangeInstituto}
-            />
-            </div>
-            {cursos.length !== 0 ? (
-            <div>
-              <InputLabel
-              style={{ textAlign: "center" }}
-              className={"mt-4"}
-              id="label-curso"
-            >
-              Selecione o curso
-            </InputLabel> 
+                style={{ textAlign: "center" }}
+                className={"mt-2"}
+                id="label-universidade"
+              >
+                Selecione a universidade
+              </InputLabel>
               <Select
                 className={"mt-3"}
-                labelId="label-curso"
+                labelId="label-universidade"
                 variant="outlined"
                 defaultValue=""
-                options={cursos}
+                options={universidades}
                 fullWidth
-                placeholder="Curso"
-                onChange={handleChangeCurso}
+                placeholder="Universidade"
+                onChange={handleChangeUniversidade}
               />
-              {requisitionCronograma ? (
-                <>
-                  <Typography className="pb-5 pt-2 text-center mt-5" component="h1" variant="h4">
-                   Cronogramas
-                  </Typography>
-                  <Accordion defaultActiveKey="">
-                    {cronogramas.map((cronograma) => (
-                     <Accordion.Item eventKey={cronograma.id}>
-                      <Accordion.Header>{cronograma.ano}</Accordion.Header>
-                        <Accordion.Body>      
-                          <div className="accordion-div">
-                            <div>
-                              <p><strong>Ano:</strong> {cronograma.ano} <br/></p>
-                              <p><strong>Semestre:</strong> {cronograma.semestre} <br/></p>
-                            </div>
-                            <div>
-                              <button onClick={() => navigate(`/criar-atividade/${cronograma.id}`)}>
-                                <AddIcon />
-                              </button>
-                              <button onClick={() => navigate(`/atividades/${cronograma.id}`)}>
-                                <ArticleIcon />
-                              </button>
-                              <button onClick={() => handleDelete(cronograma.id)}>
-                                <DeleteOutlineIcon />
-                              </button>
-                            </div>
-                          </div>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                   ))}
-                  </Accordion>
-                </>
-                
-              ) : ""}
             </div>
-          ) : (
-            ""
-          )}
+
+            {requisitionInstituto ? (
+              <div className="col-4">
+                <InputLabel
+                  style={{ textAlign: "center" }}
+                  className={"mt-2"}
+                  id="label-instituto"
+                >
+                  Selecione o instituto
+                </InputLabel>
+                <Select
+                  className={"mt-3"}
+                  labelId="label-instituto"
+                  variant="outlined"
+                  defaultValue=""
+                  options={institutos}
+                  fullWidth
+                  placeholder="Instituto"
+                  onChange={handleChangeInstituto}
+                />
+              </div>
+            ) : (
+              ""
+            )}
+
+            {cursos.length !== 0 ? (
+              <div className="col-4">
+                <InputLabel
+                  style={{ textAlign: "center" }}
+                  className={"mt-2"}
+                  id="label-curso"
+                >
+                  Selecione o curso
+                </InputLabel>
+                <Select
+                  className={"mt-3"}
+                  labelId="label-curso"
+                  variant="outlined"
+                  defaultValue=""
+                  options={cursos}
+                  fullWidth
+                  placeholder="Curso"
+                  onChange={handleChangeCurso}
+                />
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          {requisitionCronograma ? (
+            <>
+              <Typography
+                className="pb-5 pt-2 text-center mt-5"
+                component="h1"
+                variant="h4"
+              >
+                Cronogramas
+              </Typography>
+              <Accordion defaultActiveKey="">
+                {cronogramas.map((cronograma) => (
+                  <Accordion.Item eventKey={cronograma.id}>
+                    <Accordion.Header>{cronograma.ano}</Accordion.Header>
+                    <Accordion.Body>
+                      <div className="accordion-div">
+                        <div>
+                          <p>
+                            <strong>Ano:</strong> {cronograma.ano} <br />
+                          </p>
+                          <p>
+                            <strong>Semestre:</strong> {cronograma.semestre}{" "}
+                            <br />
+                          </p>
+                        </div>
+                        {userType === "3" ? (
+                          <div>
+                            <button
+                              onClick={() =>
+                                navigate(`/criar-atividade/${cronograma.id}`)
+                              }
+                            >
+                              <AddIcon />
+                            </button>
+                            <button
+                              onClick={() =>
+                                navigate(`/atividades/${cronograma.id}`)
+                              }
+                            >
+                              <ArticleIcon />
+                            </button>
+                            <button onClick={() => handleDelete(cronograma.id)}>
+                              <DeleteOutlineIcon />
+                            </button>
+                          </div>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                ))}
+              </Accordion>
             </>
-                     
           ) : (
             ""
           )}
         </div>
       </Container>
     </div>
-  )
+  );
 }

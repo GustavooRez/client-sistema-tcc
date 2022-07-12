@@ -125,7 +125,7 @@ export default function Navbar() {
               <>
                 {userType !== "1" ? (
                   <>
-                    <NavDropdown.Item href="/perfil-professor">
+                    <NavDropdown.Item href="/meu-perfil-professor">
                       Perfil professor
                     </NavDropdown.Item>
                     <NavDropdown.Item href="/criar-projeto">
@@ -151,7 +151,7 @@ export default function Navbar() {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <NavLink to="/cronograma">Cronograma</NavLink>
+              <NavLink to="/cronogramas">Cronograma</NavLink>
             )}
             {userType === "3" ? (
               <>

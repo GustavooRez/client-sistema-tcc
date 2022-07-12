@@ -39,6 +39,7 @@ import Cronogramas from "./view/cronogramas/Cronogramas";
 import CriarAtividade from "./view/atividades/CriarAtividade";
 import Atividades from "./view/atividades/Atividades";
 import EditarAtividade from "./view/atividades/EditarAtividade";
+import MeuPerfilProfessor from "./view/professor/MeuPerfilProfessor";
 function App() {
   return (
       
@@ -67,7 +68,8 @@ function App() {
           <Route path="/criar-curso" element={ <RequireAdminAccess> <Navbar /> <CriarCurso /> </RequireAdminAccess> } />
           <Route path="/criar-cronograma" element={ <RequireAdminAccess> <Navbar /> <CriarCronograma /> </RequireAdminAccess> } />
           <Route path="/criar-atividade" element={ <RequireAdminAccess> <Navbar /> <CriarAtividade /> </RequireAdminAccess> } />
-          <Route path="/cronogramas" element={ <RequireAdminAccess> <Navbar /> <Cronogramas /> </RequireAdminAccess> } />
+          <Route path="/cronogramas" element={  <RequireAuth ><Navbar /> <Cronogramas /> </RequireAuth>} />
+          <Route path="/status-tcc" element={ <RequireAuth> <Navbar /> <StatusTcc /> </RequireAuth> } />
           <Route path="/atividades/:id" element={ <RequireAdminAccess> <Navbar /> <Atividades /> </RequireAdminAccess> } />
           <Route path="/editar-atividade/:id/:id_cronograma" element={ <RequireAdminAccess> <Navbar /> <EditarAtividade /> </RequireAdminAccess> } />
           <Route path="/cursos" element={ <RequireAdminAccess> <Navbar /> <Cursos /> </RequireAdminAccess> } />
@@ -75,6 +77,7 @@ function App() {
           <Route path="/institutos" element={ <RequireAdminAccess> <Navbar /> <Institutos /> </RequireAdminAccess> } />
           <Route path="/orientadores" element={ <RequireAuth> <Navbar /> <Orientadores /> </RequireAuth> } />
           <Route path="/perfil-professor/:id" element={ <RequireAuth> <Navbar /> <PerfilProfessor /> </RequireAuth> } />
+          <Route path="/meu-perfil-professor" element={ <RequireProfessorAccess> <Navbar /> <MeuPerfilProfessor /> </RequireProfessorAccess> } />
           <Route path="/aceitar-orientacao" element={ <RequireProfessorAccess> <Navbar /> <AceitarOrientacao /> </RequireProfessorAccess> } />
           <Route path="/avaliar-tcc-parcial" element={ <RequireProfessorAccess> <Navbar /> <AvaliarTfgParcial /> </RequireProfessorAccess> } />
           <Route path="/confirmar-matricula" element={ <RequireAdminAccess> <Navbar /> <ConfirmarMatricula /> </RequireAdminAccess> } />
