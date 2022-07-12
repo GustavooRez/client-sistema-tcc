@@ -250,29 +250,33 @@ export default function Cronogramas() {
                             <br />
                           </p>
                         </div>
-                        {userType === "3" ? (
-                          <div>
-                            <button
-                              onClick={() =>
-                                navigate(`/criar-atividade/${cronograma.id}`)
-                              }
-                            >
-                              <AddIcon />
-                            </button>
-                            <button
-                              onClick={() =>
-                                navigate(`/atividades/${cronograma.id}`)
-                              }
-                            >
-                              <ArticleIcon />
-                            </button>
-                            <button onClick={() => handleDelete(cronograma.id)}>
-                              <DeleteOutlineIcon />
-                            </button>
-                          </div>
-                        ) : (
-                          <></>
-                        )}
+                        <div>
+                          <button
+                            onClick={() =>
+                              navigate(`/atividades/${cronograma.id}`)
+                            }
+                          >
+                            <ArticleIcon />
+                          </button>
+                          {userType === "3" ? (
+                            <div>
+                              <button
+                                onClick={() =>
+                                  navigate(`/criar-atividade/${cronograma.id}`)
+                                }
+                              >
+                                <AddIcon />
+                              </button>
+                              <button
+                                onClick={() => handleDelete(cronograma.id)}
+                              >
+                                <DeleteOutlineIcon />
+                              </button>
+                            </div>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
