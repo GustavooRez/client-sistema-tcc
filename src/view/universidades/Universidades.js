@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
+import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import UpdateIcon from '@mui/icons-material/Update';
@@ -12,6 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default function Universidades() {
   const [universidades, setUniversidades] = useState([]);
   const navigate = useNavigate();
+  const [status, setStatus] = useState(true);
 
   React.useEffect(() => {
     axios
@@ -23,7 +25,7 @@ export default function Universidades() {
       .then((res) => {
         if (res.data.status === 200) {
           setUniversidades(res.data.universidades);
-        }
+        } 
       });
   }, []);
 
@@ -37,7 +39,7 @@ export default function Universidades() {
         if (res.data.status === 200) {
           return navigate(0);
         } else {
-          Alert(res.data.error)
+          setStatus(res.data.error)
         }
       })
   }
@@ -51,6 +53,13 @@ export default function Universidades() {
               <Typography className="pb-5 pt-2" component="h1" variant="h4">
                 Universidades
               </Typography>
+              {status !== true ? (
+                <Alert className="my-2" variant="filled" severity={classStatus}>
+                  {status}
+                </Alert>
+                ) : (
+                  ""
+              )}
               <Accordion defaultActiveKey="">
                 {universidades.map((universidade) => (
                   <Accordion.Item eventKey={universidade.id}>

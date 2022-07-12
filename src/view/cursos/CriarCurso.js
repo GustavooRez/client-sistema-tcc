@@ -12,6 +12,7 @@ export default function CriarCurso() {
   const [universidades, setUniversidades] = useState([]);
   const [institutos, setInstitutos] = useState([]);
   const navigate = useNavigate();
+  var [status, setStatus] = useState(true);
   const [requisition, setRequisition] = useState(null);
   const [institutoSelected, setInstitutoSelected] = useState([]);
   const [inputValues, setInputValues] = useState({
@@ -106,6 +107,13 @@ export default function CriarCurso() {
             <Typography className="pb-5 pt-2 text-center" component="h1" variant="h4">
               Criar Curso
             </Typography>
+            {status !== true ? (
+              <Alert className="my-2" variant="filled" severity={classStatus}>
+                {status}
+              </Alert>
+            ) : (
+              ""
+            )}
             <InputLabel
               style={{ textAlign: "center" }}
               className={"mt-2"}

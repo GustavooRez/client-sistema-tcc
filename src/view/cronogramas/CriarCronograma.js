@@ -11,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function CriarCronograma() {
   const [institutos, setInstitutos] = useState([]);
+  var [status, setStatus] = useState(true);
   const [universidades, setUniversidades] = useState([]);
   const [cursos, setCursos] = useState([]);
   const [cursoSelected, setCursoSelected] = useState(null);
@@ -136,6 +137,13 @@ export default function CriarCronograma() {
             <Typography className="pb-5 pt-2 text-center" component="h1" variant="h4">
               Criar Cronograma
             </Typography>
+            {status !== true ? (
+              <Alert className="my-2" variant="filled" severity={classStatus}>
+                {status}
+              </Alert>
+             ) : (
+              ""
+            )}
             <InputLabel
               style={{ textAlign: "center" }}
               className={"mt-2"}
