@@ -1,7 +1,7 @@
 // Através deste arquivo é possível realizar o roteamento das páginas
 import React, { Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import {RequireAuth,RequireProfessorAccess,RequireAdminAccess,RequireSemTccAccess, RequireMatriculaRealizadaAccess, RequireDesenvolvimentoParcialAccess, RequireDesenvolvimentoFinalAccess,} from "./Private/Private.tsx"
+import {RequireAuth,RequireProfessorAccess,RequireAdminAccess,RequireSemTccAccess, RequireMatriculaRealizadaAccess, RequireDesenvolvimentoParcialAccess, RequireDesenvolvimentoFinalAccess, RequireTfgFinalEnviadoAccess} from "./Private/Private.tsx"
 
 import Login from "./view/login/Login";
 import Logout from "./view/login/Logout";
@@ -39,6 +39,7 @@ import Cronogramas from "./view/cronogramas/Cronogramas";
 import CriarAtividade from "./view/atividades/CriarAtividade";
 import Atividades from "./view/atividades/Atividades";
 import EditarAtividade from "./view/atividades/EditarAtividade";
+import CriarBanca from "./view/bancas/CriarBanca";
 function App() {
   return (
       
@@ -71,6 +72,7 @@ function App() {
           <Route path="/atividades/:id" element={ <RequireAdminAccess> <Navbar /> <Atividades /> </RequireAdminAccess> } />
           <Route path="/editar-atividade/:id/:id_cronograma" element={ <RequireAdminAccess> <Navbar /> <EditarAtividade /> </RequireAdminAccess> } />
           <Route path="/cursos" element={ <RequireAdminAccess> <Navbar /> <Cursos /> </RequireAdminAccess> } />
+          <Route path="/criar-banca" element={ <RequireTfgFinalEnviadoAccess> <Navbar /> <CriarBanca /> </RequireTfgFinalEnviadoAccess> } />
           <Route path="/universidades" element={ <RequireAdminAccess> <Navbar /> <Universidades /> </RequireAdminAccess> } />
           <Route path="/institutos" element={ <RequireAdminAccess> <Navbar /> <Institutos /> </RequireAdminAccess> } />
           <Route path="/orientadores" element={ <RequireAuth> <Navbar /> <Orientadores /> </RequireAuth> } />

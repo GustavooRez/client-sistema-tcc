@@ -108,3 +108,18 @@ export function RequireDesenvolvimentoFinalAccess({ children }: { children: JSX.
 
   return children;
 }
+
+export function RequireTfgFinalEnviadoAccess({ children }: { children: JSX.Element }) {
+  var userTccStatus = localStorage.getItem('userTccStatus');
+  let access;
+  if (userTccStatus === "tfg_final_enviado") {
+    access = true
+  } else {
+    access = false
+  }
+  if (access === false) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}

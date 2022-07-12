@@ -83,6 +83,12 @@ export default function Navbar() {
                             Realizar Matrícula
                           </NavDropdown.Item>
                         );
+                      case "tfg_final_enviado":
+                        return (
+                          <NavDropdown.Item href="/criar-banca">
+                            Marcar Banca Avalidadora
+                          </NavDropdown.Item>
+                        );
                       default:
                         return (
                           <NavDropdown.Item href="/status-tfg">
