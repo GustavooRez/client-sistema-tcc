@@ -39,11 +39,8 @@ import Cronogramas from "./view/cronogramas/Cronogramas";
 import CriarAtividade from "./view/atividades/CriarAtividade";
 import Atividades from "./view/atividades/Atividades";
 import EditarAtividade from "./view/atividades/EditarAtividade";
-<<<<<<< HEAD
 import CriarBanca from "./view/bancas/CriarBanca";
-=======
 import MeuPerfilProfessor from "./view/professor/MeuPerfilProfessor";
->>>>>>> e4e3e8504931bfb35d2efa8a4919a139eeff18ca
 function App() {
   return (
       
