@@ -10,6 +10,7 @@ import {
   NavBtn,
   NavBtnLink,
 } from "./NavbarElements";
+import { arrayIncludes } from "@material-ui/pickers/_helpers/utils";
 const axios = require("axios").default;
 
 export default function Navbar() {
@@ -65,13 +66,13 @@ export default function Navbar() {
                             Registro de Tfg
                           </NavDropdown.Item>
                         );
-                      case "desenvolvimento_parcial":
+                      case "registro_de_projeto_aprovado":
                         return (
                           <NavDropdown.Item href="/enviar-tcc-parcial">
                             Enviar TCC Parcial
                           </NavDropdown.Item>
                         );
-                      case "desenvolvimento_final":
+                      case "tfg_parcial_aprovado": 
                         return (
                           <NavDropdown.Item href="/enviar-tcc-final">
                             Enviar TCC Final
