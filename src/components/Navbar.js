@@ -10,6 +10,7 @@ import {
   NavBtn,
   NavBtnLink,
 } from "./NavbarElements";
+import { arrayIncludes } from "@material-ui/pickers/_helpers/utils";
 const axios = require("axios").default;
 
 export default function Navbar() {
@@ -65,13 +66,13 @@ export default function Navbar() {
                             Registro de Tfg
                           </NavDropdown.Item>
                         );
-                      case "desenvolvimento_parcial":
+                      case "registro_de_projeto_aprovado":
                         return (
                           <NavDropdown.Item href="/enviar-tcc-parcial">
                             Enviar TCC Parcial
                           </NavDropdown.Item>
                         );
-                      case "desenvolvimento_final":
+                      case "tfg_parcial_aprovado": 
                         return (
                           <NavDropdown.Item href="/enviar-tcc-final">
                             Enviar TCC Final
@@ -91,8 +92,8 @@ export default function Navbar() {
                         );
                       default:
                         return (
-                          <NavDropdown.Item href="/status-tfg">
-                            Status TFG
+                          <NavDropdown.Item href="/status-tcc">
+                            Status TCC
                           </NavDropdown.Item>
                         );
                     }
@@ -103,12 +104,19 @@ export default function Navbar() {
               ""
             )}
             {userType !== "1" ? (
-              <NavDropdown title="Gerenciar orientações" className="dropdownNav">
+              <NavDropdown title="Gerenciar TCCs" className="dropdownNav">
                 {userType === "3" ? (
-                  <NavDropdown.Item href="/confirmar-matricula">
-                    Confirmar matrícula
-                  </NavDropdown.Item>
-                ) : (<></>)}
+                  <>
+                    <NavDropdown.Item href="/confirmar-matricula">
+                      Confirmar matrícula
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/confirmar-projeto">
+                      Confirmar registro
+                    </NavDropdown.Item>
+                  </>
+                ) : (
+                  ""
+                )}
                 <NavDropdown.Item href="/aceitar-orientacao">
                   Aceitar Orientação
                 </NavDropdown.Item>
@@ -117,8 +125,28 @@ export default function Navbar() {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <NavLink to="/cronograma">Cronograma</NavLink>
+              ""
             )}
+            <NavDropdown title="Projetos" className="dropdownNav">
+              <>
+                {userType !== "1" ? (
+                  <>
+                    <NavDropdown.Item href="/meu-perfil-professor">
+                      Perfil professor
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/criar-projeto">
+                      Criar Projeto
+                    </NavDropdown.Item>
+                  </>
+                ) : (
+                  ""
+                )}
+                <NavDropdown.Item href="/orientadores">
+                  Orientadores
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/projetos">Projetos</NavDropdown.Item>
+              </>
+            </NavDropdown>
             {userType === "3" ? (
               <NavDropdown title="Cronograma" className="dropdownNav">
                 <NavDropdown.Item href="/criar-cronograma">
@@ -129,35 +157,14 @@ export default function Navbar() {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <NavLink to="/cronograma">Cronograma</NavLink>
-            )}
-            {userType !== "1" ? (
-              <NavDropdown title="Orientação" className="dropdownNav">
-                <NavDropdown.Item href="/perfil-professor">
-                  Perfil professor
-                </NavDropdown.Item>
-                <NavDropdown.Item href="/orientadores">
-                  Orientadores
-                </NavDropdown.Item>
-              </NavDropdown>
-            ) : (
-              <NavLink to="/orientadores">Orientadores</NavLink>
-            )}
-            {userType !== "1" ? (
-              <NavDropdown title="Projetos" className="dropdownNav">
-                <NavDropdown.Item href="/criar-projeto">
-                  Criar Projeto
-                </NavDropdown.Item>
-                <NavDropdown.Item href="/projetos">
-                  Visualizar projetos
-                </NavDropdown.Item>
-              </NavDropdown>
-            ) : (
-              <NavLink to="/projetos">Projetos</NavLink>
+              <NavLink to="/cronogramas">Cronograma</NavLink>
             )}
             {userType === "3" ? (
               <>
                 <NavDropdown title="Gerencial" className="dropdownNav">
+                  <NavDropdown.Item href="/criar-usuarios">
+                    Criar usuarios
+                  </NavDropdown.Item>
                   <NavDropdown.Item href="/criar-universidade">
                     Criar universidade
                   </NavDropdown.Item>
@@ -177,28 +184,23 @@ export default function Navbar() {
                     Visualizar cursos
                   </NavDropdown.Item>
                 </NavDropdown>
-              <NavDropdown title="Template" className="dropdownNav">
-                <NavDropdown.Item href="/criar-template">
-                  Criar template
-                </NavDropdown.Item>
-                <NavDropdown.Item href="/template">
-                  Visualizar template
-                </NavDropdown.Item>
-              </NavDropdown>
+              </>
+            ) : (
+              ""
+            )}
+            {userType === "3" ? (
+              <>
+                <NavDropdown title="Template" className="dropdownNav">
+                  <NavDropdown.Item href="/criar-template">
+                    Criar template
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/template">
+                    Visualizar template
+                  </NavDropdown.Item>
+                </NavDropdown>
               </>
             ) : (
               <NavLink to="/template">Template</NavLink>
-            )}
-            <NavLink to="/trabalho">Trabalhos</NavLink>
-            <NavLink to="/docente">Docentes</NavLink>
-            {userType === "3" ? (
-              <NavDropdown title="Usuarios" className="dropdownNav">
-                <NavDropdown.Item href="/criar-usuarios">
-                  Criar usuarios
-                </NavDropdown.Item>
-              </NavDropdown>
-            ) : (
-              ""
             )}
           </NavMenu>
         ) : (

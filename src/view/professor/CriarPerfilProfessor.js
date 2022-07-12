@@ -56,7 +56,7 @@ function CriarPerfilProfessor() {
       )
       .then((res) => {
         if (res.data.status === 200) {
-          return navigate("/perfil-professor");
+          return navigate("/meu-perfil-professor");
         } else {
           setStatus(res.data.error);
         }

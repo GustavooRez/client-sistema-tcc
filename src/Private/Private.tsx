@@ -82,7 +82,7 @@ export function RequireMatriculaRealizadaAccess({ children }: { children: JSX.El
 export function RequireDesenvolvimentoParcialAccess({ children }: { children: JSX.Element }) {
   var userTccStatus = localStorage.getItem('userTccStatus');
   let access;
-  if (userTccStatus === "desenvolvimento_parcial") {
+  if (userTccStatus === "registro_de_projeto_aprovado") {
     access = true
   } else {
     access = false
@@ -97,7 +97,7 @@ export function RequireDesenvolvimentoParcialAccess({ children }: { children: JS
 export function RequireDesenvolvimentoFinalAccess({ children }: { children: JSX.Element }) {
   var userTccStatus = localStorage.getItem('userTccStatus');
   let access;
-  if (userTccStatus === "desenvolvimento_final") {
+  if (userTccStatus === "tfg_parcial_aprovado") {
     access = true
   } else {
     access = false

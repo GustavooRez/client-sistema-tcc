@@ -21,8 +21,8 @@ function CriarProjeto() {
     disponivel: "",
     pre_requisito: ""
   });
+  var [professorId, setProfessorId] = useState(true);
 
-  var professorId = "";
   React.useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/professor/${userId}/user`, {
@@ -34,7 +34,7 @@ function CriarProjeto() {
         if (res.data.status === 201) {
           return navigate("/");
         } else {
-          professorId = res.data.perfilProfessor.id;
+          setProfessorId(res.data.perfilProfessor.id);
         }
       });
   },[]);
@@ -69,6 +69,7 @@ function CriarProjeto() {
         if (res.data.status === 200) {
           return navigate("/projetos");
         } else {
+          console.log(res.data)
           setStatus(res.data.error);
         }
       });
