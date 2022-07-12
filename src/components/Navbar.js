@@ -145,7 +145,7 @@ export default function Navbar() {
                 <NavDropdown.Item href="/criar-cronograma">
                   Criar cronograma
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/cronograma">
+                <NavDropdown.Item href="/cronogramas">
                   Visualizar cronograma
                 </NavDropdown.Item>
               </NavDropdown>
