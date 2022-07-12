@@ -3,10 +3,7 @@ import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import {
-  MuiPickersUtilsProvider,
-  DateTimePicker,
-} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import Alert from "@mui/material/Alert";
@@ -29,7 +26,6 @@ export default function CriarBanca() {
   const [inputValues, setInputValues] = useState({
     dia_horario: new Date(),
   });
-
 
   React.useEffect(() => {
     axios
@@ -76,13 +72,10 @@ export default function CriarBanca() {
       });
   }, []);
 
-
-
-
   const handleDateChange = (date) => {
     setSelectedDate(date);
     setInputValues({ ...inputValues, dia_horario: date });
-  }
+  };
 
   const handleChangeOrientador = (event) => {
     const filtered = professores.filter((prof) => {
@@ -103,87 +96,105 @@ export default function CriarBanca() {
   function onSubmit() {
     axios
       .get(
-          `${process.env.REACT_APP_API_URL}/tfg/search-orientador-id/${idTcc}`,
-            {
-              headers: {
-                Authorization: localStorage.getItem("accesstoken"),
-              },
-            }
-        )
-          .then((res) => {
-            if (res.data.status === 200) {
-              if (orientadorSelected !== null && coorientadorSelected !== null) {
-                axios
-                  .post(
-                    `${process.env.REACT_APP_API_URL}/board`,
-                    {
-                      id_usuario: idOrientador,
-                      id_tfg: idTcc,
-                      dia_horario: inputValues.dia_horario,
-                      nota_final: "",
-                      nota_apresentacao: "",
-                      nota_trabalho: ""
-                    },
-                    {
-                      headers: {
-                        Authorization: localStorage.getItem("accesstoken"),
+        `${process.env.REACT_APP_API_URL}/tfg/search-orientador-id/${idTcc}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("accesstoken"),
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.status === 200) {
+          if (orientadorSelected !== null && coorientadorSelected !== null) {
+            axios
+              .post(
+                `${process.env.REACT_APP_API_URL}/board`,
+                {
+                  id_usuario: idOrientador,
+                  id_tfg: idTcc,
+                  dia_horario: inputValues.dia_horario,
+                  nota_final: "",
+                  nota_apresentacao: "",
+                  nota_trabalho: "",
+                },
+                {
+                  headers: {
+                    Authorization: localStorage.getItem("accesstoken"),
+                  },
+                }
+              )
+              .then((response) => {
+                if (response.data.status === 200) {
+                  let idProfessor1 = orientadorSelected;
+                  axios
+                    .post(
+                      `${process.env.REACT_APP_API_URL}/board`,
+                      {
+                        id_usuario: idProfessor1,
+                        id_tfg: idTcc,
+                        dia_horario: inputValues.dia_horario,
+                        nota_final: "",
+                        nota_apresentacao: "",
+                        nota_trabalho: "",
                       },
-                    }
-                  )
-                  .then((response) => {
-                    if (response.data.status === 200) {
-                      let idProfessor1 = orientadorSelected;
+                      {
+                        headers: {
+                          Authorization: localStorage.getItem("accesstoken"),
+                        },
+                      }
+                    )
+                    .then((response) => {});
+                  let idProfessor2 = coorientadorSelected;
+                  axios
+                    .post(
+                      `${process.env.REACT_APP_API_URL}/board`,
+                      {
+                        id_usuario: idProfessor2,
+                        id_tfg: idTcc,
+                        dia_horario: inputValues.dia_horario,
+                        nota_final: "",
+                        nota_apresentacao: "",
+                        nota_trabalho: "",
+                      },
+                      {
+                        headers: {
+                          Authorization: localStorage.getItem("accesstoken"),
+                        },
+                      }
+                    )
+                    .then((response) => {
                       axios
-                        .post(
-                          `${process.env.REACT_APP_API_URL}/board`,
+                        .put(
+                          `${process.env.REACT_APP_API_URL}/tfg/${idTcc}/status`,
                           {
-                            id_usuario: idProfessor1,
-                            id_tfg: idTcc,
-                            dia_horario: inputValues.dia_horario,
-                            nota_final: "",
-                            nota_apresentacao: "",
-                            nota_trabalho: ""
+                            status_tfg: "banca_marcada",
                           },
                           {
                             headers: {
-                              Authorization: localStorage.getItem("accesstoken"),
+                              Authorization:
+                                localStorage.getItem("accesstoken"),
                             },
                           }
                         )
-                        .then((response) => {});
-                        let idProfessor2 = coorientadorSelected;
-                        axios
-                          .post(
-                          `${process.env.REACT_APP_API_URL}/board`,
-                          {
-                            id_usuario: idProfessor2,
-                            id_tfg: idTcc,
-                            dia_horario: inputValues.dia_horario,
-                            nota_final: "",
-                            nota_apresentacao: "",
-                            nota_trabalho: ""
-                          },
-                          {
-                            headers: {
-                              Authorization: localStorage.getItem("accesstoken"),
-                            },
-                          }
-                        )
-                        .then((response) => {});
-                            localStorage.setItem("userTccStatus", "banca_marcada")
+                        .then((response) => {
+                          localStorage.setItem(
+                            "userTccStatus",
+                            "banca_marcada"
+                          );
                           return navigate("/");
-                        } else {
-                          setStatus(response.data.error);
-                        }
-                      });
-                  } else {
-                    setStatus("Professores precisam ser selecionados");
-                  } 
+                        });
+                    });
                 } else {
-              return;
-            }
-          })
-        
+                  setStatus(response.data.error);
+                }
+              });
+          } else {
+            setStatus("Professores precisam ser selecionados");
+          }
+        } else {
+          return;
+        }
+      });
   }
 
   return (
@@ -194,14 +205,16 @@ export default function CriarBanca() {
             Registrar Banca
           </Typography>
           {status !== true ? (
-              <Alert className="mt-2 mb-4" variant="filled" severity="error">
-                {status}
-              </Alert>
-            ) : (
-              ""
-            )}
+            <Alert className="mt-2 mb-4" variant="filled" severity="error">
+              {status}
+            </Alert>
+          ) : (
+            ""
+          )}
           <div className="imc_div">
-            <InputLabel>Selecione os Professores que farão parte da banca</InputLabel>
+            <InputLabel>
+              Selecione os Professores que farão parte da banca
+            </InputLabel>
             <Select
               className={"mt-3"}
               labelId="label-tipo-usuario"
@@ -211,13 +224,13 @@ export default function CriarBanca() {
             />
           </div>
           <div className="imc_div">
-              <Select
-                className={"mt-3"}
-                labelId="label-tipo-usuario"
-                options={professores2}
-                placeholder="Professor Coorientador"
-                onChange={handleChangeCoorientador}
-              />
+            <Select
+              className={"mt-3"}
+              labelId="label-tipo-usuario"
+              options={professores2}
+              placeholder="Professor Coorientador"
+              onChange={handleChangeCoorientador}
+            />
           </div>
           <div
             className={"mt-3"}
@@ -227,7 +240,7 @@ export default function CriarBanca() {
               alignItems: "center",
             }}
           >
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <DateTimePicker
                 className="mt-2"
                 autoOk
@@ -239,7 +252,7 @@ export default function CriarBanca() {
                 value={selectedDate}
                 onChange={handleDateChange}
               />
-            </MuiPickersUtilsProvider>  
+            </MuiPickersUtilsProvider>
           </div>
         </div>
         <Button
